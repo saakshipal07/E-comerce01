@@ -1,7 +1,12 @@
 
-const cartItem=[];
+// const cartItem=[];
+let cartItem = JSON.parse(
+    localStorage.getItem("data")
+) || [];
+
 const container=document.querySelector('.container');
 const cartbag=document.querySelector('#items')
+const nextpagediv=document.querySelector('#cartContainer')
 
 window.addEventListener('load', datashow);
 
@@ -143,10 +148,37 @@ const plants = [
   }
 ];
 
-function datashow(){
+function updatestorage(){
+  localStorage.setItem('data',JSON.stringify(cartItem))
   
 
-  
+}
+
+
+function datashow(){ 
+  if(cartItem.length > 0){
+    
+    const itemcount=document.createElement('span')
+    itemcount.classList.add('countspan');
+    itemcount.textContent=`${cartItem.length}`
+    
+    bagdata.append(itemcount)
+    
+    const itemdiv=document.createElement('div');
+
+     cartItem.forEach((elm)=>{
+    console.log(elm)
+     const itemh2=document.createElement('h2');
+   
+    itemh2.textContent =`${elm.name}`;
+    itemdiv.append(itemh2)
+ nextpagediv.appendChild(itemdiv)
+  })
+
+   }
+  else{
+    console.log("Empty")
+  }
   plants.forEach((ele)=>{
     
     const divCart=document.createElement('div');
@@ -194,17 +226,18 @@ divCart.appendChild(rating);
 divCart.appendChild(ProductInfo)
 divCart.appendChild(cartbtn);
 
-
-
-container.append(divCart)
+// container.append(divCart);
   
 })
 }
 
+
 function ItemAdding(ele){
   console.log("Data is addded here")
   console.log(ele)
+ 
   cartItem.push(ele)
+  updatestorage()
 console.log(cartItem);
 if(cartItem.length > 0){
     console.log(cartItem)
@@ -222,13 +255,16 @@ if(cartItem.length > 0){
 
 cartbag.addEventListener('click',cartItemcount)
 
+
 const bagdata=document.querySelector('.context')
-function cartItemcount (e){
-  e.preventDefault()
-  console.log("cart data loaded........");
+
+
+function cartItemcount (){
+  // e.preventDefault();
   
+  console.log("cart data loaded........");
 
-
+ 
 }
 
 
